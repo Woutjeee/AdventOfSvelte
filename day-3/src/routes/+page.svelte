@@ -7,11 +7,10 @@
 <div class="flex flex-wrap">
   <div class="">
     {#each data.kids as kid}
-        <NameCard name={kid.name} weight={kid.weight} />
+      <NameCard name={kid.name} weight={kid.weight} />
     {/each}
-    </div>
-    <div>
+  </div>
+  <div>
     <h1>Hello World!</h1>
-    </div>
+  </div>
 </div>
-
