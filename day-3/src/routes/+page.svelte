@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { allNotInSleigh, allInSleigh, sleigh ,type Present } from '$lib';
+	import { allNotInSleigh, allInSleigh, sleigh } from '$lib';
 	import NameCard from '$lib/name-card.svelte';
 	export let data;
 
 	allNotInSleigh.set(data.data);
+
+	console.log(data.data);
 </script>
 
 <h1>Current weight is {Math.round(($sleigh.totalLoad + Number.EPSILON) * 100) / 100}
@@ -21,4 +23,3 @@
 		{/each}
 	</div>
 </div>
-

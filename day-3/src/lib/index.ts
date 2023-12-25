@@ -61,7 +61,7 @@ export const removeLoad = (load: Present) => {
     curNotInSleigh.push(load);
     allNotInSleigh.set(curNotInSleigh);
 
-    curSleigh.totalLoad -= load.weight;
+    curSleigh.totalLoad = curInSleigh.reduce((total, item) => total + item.weight, 0);
 
     sleigh.set(curSleigh);
 
