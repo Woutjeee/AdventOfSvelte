@@ -8,7 +8,8 @@ type Sleigh = {
 
 export type Present = {
     name: string,
-    weight: number
+    weight: number,
+    inSleig: boolean
 };
 
 export const allNotInSleigh = writable<Present[]>([]);
@@ -24,11 +25,21 @@ export const loadExceeded = writable<boolean>(false);
 
 export const addLoad = (load: Present) => {
     let currentSleigh = get(sleigh);
-    if (currentSleigh.totalLoad < currentSleigh.capacity) {
-        let newLoad = currentSleigh.totalLoad += load.weight;
-        currentSleigh.totalLoad = newLoad;
-        currentSleigh.items.push(load);
-    } else {
-        loadExceeded.set(true);
+    let curNotInSleigh = get(allNotInSleigh);
+    let curInSleigh = get(allInSleigh);
+
+    let newLoad = currentSleigh.totalLoad += load.weight;
+    if(newLoad < currentSleigh.capacity) {
+        load.inSleig = true;
+
+        console.log('test');
+        // remove from list.
+        curNotInSleigh = curNotInSleigh.filter(x => x !== load);
+        allNotInSleigh.set(curNotInSleigh);
+
+        // Add to in sleigh list.
+        curInSleigh.push(load);
+        allInSleigh.set(curInSleigh);
+        console.log(curInSleigh);
     }
 };
