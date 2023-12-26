@@ -2,6 +2,8 @@
 	import { addLoad, loadExceeded, removeLoad, type Present } from '$lib';
 
 	export let present: Present;
+
+	$: inSleigh = present.inSleig;
 </script>
 
 <div class="m-2 flex flex-row justify-between p-3 border items-center">
@@ -12,7 +14,7 @@
 		<p>{present.weight}</p>
 	</div>
 	<div class="flex flex-row w-1/3 justify-between">
-		{#if present.inSleig}
+		{#if inSleigh}
 			<p class="py-1">In sleigh</p>
 			<button on:click={() => removeLoad(present)} class="border py-1 px-2 border-red-300">Remove</button>
 		{:else if $loadExceeded}

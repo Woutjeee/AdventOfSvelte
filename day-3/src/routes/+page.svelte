@@ -8,8 +8,10 @@
 	console.log(data.data);
 </script>
 
-<h1>Current weight is {Math.round(($sleigh.totalLoad + Number.EPSILON) * 100) / 100}
-</h1>
+<div>
+	<h1>Current weight is {Math.round(($sleigh.totalLoad + Number.EPSILON) * 100) / 100} / {$sleigh.capacity}</h1>
+	<progress max="100" value={Math.round(($sleigh.totalLoad + Number.EPSILON) * 100) / 100} />
+</div>
 
 <div class="flex">
 	<div class="w-1/2">
