@@ -33,12 +33,22 @@
 			curve: 'smooth'
 		},
 		title: {
-			text: 'Dynamic Updating Chart',
+			text: 'Heartbeat',
 			align: 'left'
 		},
-        markers: {
-          size: 0
-        },
+		markers: {
+			size: 0
+		},
+		xaxis: {
+			type: 'numeric',
+		},
+		yaxis: {
+			max: 150,
+            min: 100
+		},
+		legend: {
+			show: false
+		}
 	};
 
 	const interval = setInterval(getHeartBeat, 1000);
