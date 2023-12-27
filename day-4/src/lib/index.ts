@@ -1,12 +1,19 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
-export const heartRate = writable<number>(0);
+export const heartRate = writable<number[]>([]);
 
-type heartBeat = { heartRate: number };
+type HeartBeat = { 
+    heartRate: number
+};
 
 export const getHeartBeat = async () => {
-	const res = await fetch('https://advent.sveltesociety.dev/data/2023/day-four.json');
-	const data: heartBeat = await res.json();
+    const res = await fetch('https://advent.sveltesociety.dev/data/2023/day-four.json');
+    const data: HeartBeat = await res.json();
 
-	heartRate.set(data.heartRate);
+    const curr = get(heartRate);
+
+    curr.push(data.heartRate);
+
+    // Set the heart rate as a single element array
+    heartRate.set(curr);
 };
