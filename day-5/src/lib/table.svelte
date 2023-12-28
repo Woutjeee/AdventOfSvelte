@@ -1,10 +1,11 @@
 <script lang="ts">
-	import type { Task } from '$lib';
+	import { allTasks, type Task } from '$lib';
 	import TableRow from './table-row.svelte';
 
 	export let data: Task[] = [];
 
 	let value: string;
+	let searchValue: string;
 
 	const sort = () => {
 		data =
@@ -12,13 +13,30 @@
 				? data.sort((a, b) => a.minutesTaken - b.minutesTaken)
 				: data.sort((a, b) => b.minutesTaken - a.minutesTaken);
 	};
+
+	const search = () => {
+		data = data.filter((x) => x.elf.toLowerCase().includes(searchValue.toLowerCase()));
+
+		if(searchValue === '') {
+			data = $allTasks;
+		}
+	};
 </script>
 
 <div class="px-4 sm:px-6 lg:px-8 border p-2 m-2 rounded-xl shadow-lg">
-	<div class="sm:flex sm:items-center">
-		<div class="sm:flex-auto">
+	<div class="sm:flex sm:items-center justify-between">
+		<div class="">
 			<h1 class="text-base font-semibold leading-6 text-gray-900">Tasks</h1>
 			<p class="mt-2 text-sm text-gray-700">A list of all completed tasks.</p>
+		</div>
+		<div>
+			<input
+				bind:value={searchValue}
+				on:input={search}
+				class="border rounded-lg text-black w-96 p-2 shadow-lg"
+				type="text"
+				placeholder="Search.."
+			/>
 		</div>
 		<div>
 			<div>
