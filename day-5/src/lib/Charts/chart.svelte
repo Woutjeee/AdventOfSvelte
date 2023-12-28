@@ -62,8 +62,9 @@
 </script>
 
 {#if loaded}
-	<div 
-    style={`width: ${width}px; height: ${height}px; ${additionalStyle}`} 
-    class="border p-2 m-2 rounded-xl shadow-lg" 
-    use:chart={options}></div>
+	<div
+		style={`width: ${width}px; height: ${height}px; ${additionalStyle}`}
+		class="border p-2 m-2 rounded-xl shadow-lg"
+		use:chart={options}
+	></div>
 {/if}

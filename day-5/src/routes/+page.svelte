@@ -1,8 +1,19 @@
 <script lang="ts">
 	import Chart from '$lib/Charts/chart.svelte';
 	import type { ApexOptions } from 'apexcharts';
-	import { getData, wrappedPresentTaskGraphData, createdToysTaskGraphData } from '$lib';
+	import {
+		getData,
+		wrappedPresentTaskGraphData,
+		createdToysTaskGraphData,
+		allTasks,
+		bestToyCreator,
+
+		bestToyWrapper
+
+	} from '$lib';
 	import { onMount } from 'svelte';
+	import Table from '$lib/table.svelte';
+	import Highscore from '$lib/highscore.svelte';
 
 	let loading: boolean = true;
 	let chartOptions: ApexOptions;
@@ -152,9 +163,16 @@
 	});
 </script>
 
-{#if !loading}
-	<div class="flex flex-row">
-		<Chart options={chartOptions} />
-		<Chart width="850" height="300" options={createdToysOptions} />
-	</div>
-{/if}
+<div class="m-5">
+	{#if !loading}
+		<div class="flex flex-row justify-between">
+			<Chart options={chartOptions} />
+			<Chart width="850" height="300" options={createdToysOptions} />
+			<div class="flex flex-col">
+				<Highscore task={$bestToyCreator} />
+				<Highscore task={$bestToyWrapper} />
+			</div>
+		</div>
+		<Table data={$allTasks} />
+	{/if}
+</div>
