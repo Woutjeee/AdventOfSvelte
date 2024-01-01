@@ -1,3 +1,6 @@
+import { get } from "svelte/store";
+import { MorseValues, type MorseTableRow } from "./types";
+
 type MorseType = {
     value: string
 };
@@ -90,4 +93,65 @@ export const morseDictionary: Morse = {
     "@": { value: ".--.-." },
 };
 
-// You can continue adding more characters as needed.
+
+export const getMorseValue = (morseValue: string, input: string) => {
+    morseValue = '';
+
+    input.split('').forEach((char) => {
+        if (morseDictionary[char].value) {
+            morseValue += morseDictionary[char].value + ' ';
+        } else if (char === ' ') {
+            morseValue += ' ';
+        }
+    });
+
+    let newTableRow: MorseTableRow = {
+        textValue: input,
+        morseValue: morseValue,
+    };
+
+    let oldValues = get(MorseValues);
+
+    oldValues.push(newTableRow);
+
+    MorseValues.set(oldValues);
+};
+
+export const playMorseCode = async (morseValue: string) => {
+    const audioContext = new AudioContext();
+    let time = audioContext.currentTime;
+    const dotDuration = 0.1;
+    const dashDuration = 0.4;
+    const spaceDuration = 0.2;
+
+    const playChar = async (symbol: string) => {
+        if (symbol === '.') {
+            await playBeep(audioContext, time, dotDuration);
+            // Add a short pause between dots
+            time += 0.1;
+        } else if (symbol === '-') {
+            await playBeep(audioContext, time, dashDuration);
+            time += 0.3;
+        }
+        time += spaceDuration;
+    };
+
+    for (const symbol of morseValue) {
+        await playChar(symbol);
+        time += dotDuration;
+    }
+};
+
+const playBeep = async (audioContext: AudioContext, startTime: number, duration: number) => {
+    const oscillator = audioContext.createOscillator();
+    oscillator.type = 'sine';
+
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = 0.1;
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.start(startTime);
+    oscillator.stop(startTime + duration);
+};
